@@ -1,37 +1,49 @@
-
+version: '3'
 services:
+
+  mongo:
+    image: mongo
+    container_name: cafe_mongo
+    ports:
+      - "27017:27017"
   api-gateway:
     build: ./api-gateway
     ports:
       - "3000:3000"
     depends_on:
-      - menu
-      - order
-      - customer
-      - inventory
-      - payment
+    - mongo
 
   menu:
     build: ./menu-services
     ports:
       - "3001:3001"
+    depends_on:
+      - mongo
 
   order:
     build: ./order-services
     ports:
       - "3002:3002"
+    depends_on:
+    - mongo
 
   inventory:
     build: ./inventory-services
     ports:
       - "3004:3004"
+    depends_on:
+    - mongo
 
   customer:
     build: ./customer-services
     ports:
       - "3005:3005"
+    depends_on:
+    - mongo
 
   payment:
     build: ./payment-services
     ports:
       - "3003:3003"
+    depends_on:
+    - mongo
